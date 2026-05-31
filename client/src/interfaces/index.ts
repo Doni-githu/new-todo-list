@@ -1,8 +1,11 @@
+export type TypeStatus = "to-do" | "progress" | "completed"
+
+
 export interface ITask {
     id: string,
     favor: boolean,
     title: string,
-    status: 'to-do' | 'progress' | 'completed'
+    status: TypeStatus
 }
 
 export type TypeTaskAction =
@@ -29,10 +32,22 @@ export type TypeTaskAction =
     } | {
         type: 'initial_tasks';
         payload: ITask[]
+    } | {
+        type: 'change_status';
+        payload: {
+            id: string;
+            status: TypeStatus
+        }
+    } | {
+        type: 'change_filter';
+        payload: {
+            filter: TypeStatus | "all"
+        }
     }
 
 export type TypeDefaultValue = {
-    tasks: ITask[]
+    tasks: ITask[],
+    filter: TypeStatus | "all",
 }
 
 export interface ITaskWithOutId extends Omit<ITask, 'id'> { }

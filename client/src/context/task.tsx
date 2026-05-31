@@ -1,5 +1,5 @@
 import { createContext, useReducer, type ReactNode } from "react";
-import type { ITask, ITaskWithOutId, TypeDefaultValue, TypeTaskAction } from "../interfaces";
+import type { ITask, ITaskWithOutId, TypeDefaultValue, TypeStatus, TypeTaskAction } from "../interfaces";
 
 
 type TaskContextType = {
@@ -9,10 +9,13 @@ type TaskContextType = {
     addTask: (data: ITaskWithOutId) => void;
     deleteTask: (id: string) => void;
     editTask: (id: string, title: string) => void;
-    loadTasks: (tasks: ITask[]) => void
+    loadTasks: (tasks: ITask[]) => void;
+    changeStatus: (id: string, status: string) => void;
+    changeFilter: (filter: TypeStatus | 'all') => void;
 };
 const defaultValue: TypeDefaultValue = {
-    tasks: []
+    tasks: [],
+    filter: 'all'
 }
 
 export const TaskContext = createContext<TaskContextType | undefined>(undefined)
@@ -47,6 +50,20 @@ const reducer = (state: TypeDefaultValue, action: TypeTaskAction) => {
             return { ...state, }
         case 'initial_tasks':
             return { ...state, tasks: [...action.payload] }
+        case 'change_status':
+            const { id: taskId, status } = action.payload
+            const updatedTasks = state.tasks.map(item => {
+                if (item.id === taskId) {
+                    return {
+                        ...item,
+                        status
+                    }
+                }
+                return item
+            })
+            return { ...state, tasks: updatedTasks }
+        case 'change_filter':
+            return { ...state, filter: action.payload.filter }
         default:
             return state
     }
@@ -97,8 +114,37 @@ const TaskProvider = ({ children }: ContextProviderProps) => {
         })
     }
 
+    const changeStatus = (id: string, status: TypeStatus) => {
+        dispatch({
+            type: 'change_status',
+            payload: {
+                id,
+                status
+            }
+        })
+    }
+
+    const changeFilter = (filter: TypeStatus | 'all') => {
+        dispatch({
+            type: 'change_filter',
+            payload: {
+                filter
+            }
+        })
+    }
+
     return (
-        <TaskContext.Provider value={{ state, dispatch, changeUndo, addTask, deleteTask, editTask, loadTasks }}>
+        <TaskContext.Provider value={{
+            state,
+            dispatch,
+            changeUndo,
+            addTask,
+            deleteTask,
+            editTask,
+            loadTasks,
+            changeStatus,
+            changeFilter
+        }}>
             {children}
         </TaskContext.Provider>
     );

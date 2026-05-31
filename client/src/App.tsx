@@ -4,6 +4,7 @@ import List from "./components/List"
 import { useContext, useEffect } from "react"
 import { TaskService } from "./service/task"
 import { TaskContext } from "./context/task"
+import Filter from "./components/Filter"
 function App() {
   const {loadTasks} = useContext(TaskContext)
   useEffect(() => {
@@ -18,6 +19,8 @@ function App() {
     <div className="mx-auto max-w-5xl sm:py-6 py-10">
       <div className="todo">
         <Header />
+
+        <Filter />
 
         <List />
 

@@ -1,15 +1,23 @@
 import { useContext, useState } from "react"
-import trash from "../assests/trash-solid-full.svg"
 import type { ITask } from "../interfaces"
-import { FaPen, FaTimes,FaTrash } from "react-icons/fa";
+import { FaPen, FaTimes, FaTrash } from "react-icons/fa";
 import { TaskContext } from "../context/task"
 import { TaskService } from "../service/task"
+import SelectStatus from "./SelectStatus";
+import { getStatusClasses } from "../utils";
+
+
+
+
+
+
 
 export default function ({ item, id }: { item: ITask, id: number }) {
     const { deleteTask, editTask } = useContext(TaskContext)
     const [isOpen, setIsOpen] = useState(false)
     const [isEdit, setIsEdit] = useState(false)
     const [title, setTitle] = useState(item.title)
+    const styles = getStatusClasses(item.status)
 
 
     const handleDelete = async (e) => {
@@ -38,7 +46,7 @@ export default function ({ item, id }: { item: ITask, id: number }) {
     }
 
     return (
-        <li className="flex sm:flex-row flex-col  justify-between items-start sm:items-center p-6 bg-white rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] gap-4">
+        <li className={`flex sm:flex-row flex-col  justify-between items-start sm:items-center p-6 rounded-2xl border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] gap-4 ${styles.border} ${styles.select}`}>
             {/* Left side */}
             <div className="w-full sm:w-auto">
                 <div className="flex items-center gap-3">
@@ -54,19 +62,7 @@ export default function ({ item, id }: { item: ITask, id: number }) {
             </div>
             {/* right side */}
             <div className="flex flex-row sm:flex-col items-center sm:items-emd justify-between sm:justify-start w-full sm:w-auto gap-3">
-                {/* <div className="relative">
-                        <select
-                            name="select"
-                            id="IdStatus"
-                            value={item.status}
-                            onChange={(e) => console.log(e.target.value)}
-                            className="appearance-none bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-4 rounded-full shadow-sm cursor-pointer transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-"
-                        >
-                            <option value="in-progress" className="bg-blue-600 text-slate-800">In Progress</option>
-                            <option value="to-do" className="bg-yellow-200 text-slate-800">To-Do</option>
-                            <option value="in-progress" className="bg-green-700 text-white text-slate-800">Completed</option>
-                        </select>
-                    </div> */}
+                <SelectStatus styles={styles} task={item} />
                 <div className="flex items-center gap-2">
 
 
@@ -76,15 +72,15 @@ export default function ({ item, id }: { item: ITask, id: number }) {
                     >
                         <FaPen
                             className={`absolute transition-all duration-300 ${isEdit
-                                    ? "rotate-90 scale-0 opacity-0"
-                                    : "rotate-0 scale-100 opacity-100"
+                                ? "rotate-90 scale-0 opacity-0"
+                                : "rotate-0 scale-100 opacity-100"
                                 }`}
                         />
 
                         <FaTimes
                             className={`absolute transition-all duration-300 ${isEdit
-                                    ? "rotate-0 scale-100 opacity-100"
-                                    : "-rotate-90 scale-0 opacity-0"
+                                ? "rotate-0 scale-100 opacity-100"
+                                : "-rotate-90 scale-0 opacity-0"
                                 }`}
                         />
                     </button>
