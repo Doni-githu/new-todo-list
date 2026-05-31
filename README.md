@@ -59,7 +59,7 @@ Welcome to **My Daily Tasks**! This is a simple and clean task manager app built
 1. Click the **New Task** button.
    ![New Task Button](assets/new-task.png)
 2. A modal will pop up. Enter your task title and click **Submit**.
-   ![Add Task Modal](assets/new-task.png)
+   ![Add Task Modal](assets/poped-up-modal.png)
 
 ### Viewing Tasks
 - Your tasks will appear in a neat list, sorted by their status. Here's how it looks:
