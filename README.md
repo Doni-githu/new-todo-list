@@ -83,22 +83,6 @@ Welcome to **My Daily Tasks**! This is a simple and clean task manager app built
 - **Backend**: Node.js, Express.js, MongoDB
 - **HTTP Client**: Axios
 
----
-
-## Future Plans
-
-- Add user authentication.
-- Implement drag-and-drop functionality for task reordering.
-- Add due dates and reminders for tasks.
-- Improve the UI/UX with animations and themes.
-
----
-
-## Contributing
-
-Feel free to fork this repository and make your own changes! If you have any suggestions or improvements, open an issue or submit a pull request. Let's make this app even better together!
-
----
-
+```
 Thanks for checking out **My Daily Tasks**! 
 ```
