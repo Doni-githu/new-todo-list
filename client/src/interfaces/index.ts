@@ -43,6 +43,13 @@ export type TypeTaskAction =
         payload: {
             filter: TypeStatus | "all"
         }
+    } | {
+        type: 'clear_completed';
+    } | {
+        type: 'clear_favor';
+    } | {
+        type: 'change_favor';
+        payload: { id: string }
     }
 
 export type TypeDefaultValue = {

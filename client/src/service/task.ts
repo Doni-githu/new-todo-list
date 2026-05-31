@@ -17,6 +17,12 @@ export const TaskService = {
     },
     changeStatus: (id: string, status: TypeStatus) => {
         return axios.patch(`/${id}`, { status })
+    },
+    changeFavor: (id: string, favor: boolean) => {
+        return axios.put(`/favor/${id}`, { favor })
+    },
+    clear: (toggle: 'completed' | 'favor') => {
+        return axios.delete("/clear?toggle=" + toggle)
     }
 }
 

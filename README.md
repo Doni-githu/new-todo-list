@@ -10,6 +10,7 @@ Welcome to **My Daily Tasks**! This is a simple and clean task manager app built
 - **Edit Tasks**: Update your task titles with ease.
 - **Delete Tasks**: Remove tasks you no longer need.
 - **Task Sorting**: Tasks are sorted automatically based on their status.
+- **Favorite Tasks**: Mark tasks as favorites to prioritize them.
 
 ---
 
@@ -56,7 +57,8 @@ Welcome to **My Daily Tasks**! This is a simple and clean task manager app built
 
 ### Adding a Task
 1. Click the **New Task** button.
-2. A modal will pop up (see the image below). Enter your task title and click **Submit**.
+   ![New Task Button](assets/new-task.png)
+2. A modal will pop up. Enter your task title and click **Submit**.
    ![Add Task Modal](assets/new-task.png)
 
 ### Viewing Tasks
@@ -65,12 +67,13 @@ Welcome to **My Daily Tasks**! This is a simple and clean task manager app built
 
 ### Editing a Task
 1. Click the **Edit** button (green pencil icon) next to the task you want to edit.
+   ![Edit Task Button](assets/filter-tasks.png)
 2. Update the task title and press **Enter** to save your changes.
 
 ### Deleting a Task
 1. Click the **Delete** button (red trash icon) next to the task you want to delete.
+   ![Delete Task Button](assets/delete-task.png)
 2. Confirm the deletion in the modal that pops up.
-   ![Delete Task Modal](assets/delete-task.png)
 
 ---
 
@@ -97,5 +100,5 @@ Feel free to fork this repository and make your own changes! If you have any sug
 
 ---
 
-Thanks for checking out **My Daily Tasks**
+Thanks for checking out **My Daily Tasks**! 
 ```

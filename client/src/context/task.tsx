@@ -12,6 +12,7 @@ type TaskContextType = {
     loadTasks: (tasks: ITask[]) => void;
     changeStatus: (id: string, status: string) => void;
     changeFilter: (filter: TypeStatus | 'all') => void;
+    changeFavor: (id: string) => void;
 };
 const defaultValue: TypeDefaultValue = {
     tasks: [],
@@ -38,16 +39,6 @@ const reducer = (state: TypeDefaultValue, action: TypeTaskAction) => {
         case 'deleted':
             const id = action.payload.id
             return { ...state, tasks: state.tasks.filter(item => item.id !== id) }
-        case 'favor':
-            state.tasks.map(item => {
-                if (item.id == action.payload.id) {
-                    return {
-                        ...item,
-                        undo: !item.favor
-                    }
-                }
-            })
-            return { ...state, }
         case 'initial_tasks':
             return { ...state, tasks: [...action.payload] }
         case 'change_status':
@@ -64,6 +55,23 @@ const reducer = (state: TypeDefaultValue, action: TypeTaskAction) => {
             return { ...state, tasks: updatedTasks }
         case 'change_filter':
             return { ...state, filter: action.payload.filter }
+        case 'clear_completed':
+            return {...state, tasks: state.tasks.filter(item => item.status !== 'completed') }
+        case "clear_favor":
+            return {...state, tasks: state.tasks.filter(item => !item.favor) }
+        case 'change_favor':
+            const { id: favorId } = action.payload
+            const favorUpdatedTasks = state.tasks.map(item => {
+                if (item.id === favorId) {
+                    return {
+                        ...item,
+                        favor: !item.favor
+                    }
+                }   
+            
+                return item
+            })
+            return { ...state, tasks: favorUpdatedTasks }
         default:
             return state
     }
@@ -133,8 +141,18 @@ const TaskProvider = ({ children }: ContextProviderProps) => {
         })
     }
 
+    const changeFavor = (id: string) => {
+        dispatch({
+            type: 'change_favor',
+            payload: {
+                id
+            }
+        })
+    }   
+
     return (
         <TaskContext.Provider value={{
+            changeFavor,
             state,
             dispatch,
             changeUndo,

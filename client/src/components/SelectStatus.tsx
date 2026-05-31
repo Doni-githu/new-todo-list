@@ -22,7 +22,7 @@ export default function ({ task, styles }:SelectStatusProps) {
     };
 
     return (
-        <div className="relative">
+        <div className="relative mr-5">
             <select
                 value={task.status}
                 onChange={(e) => handleStatusChange(task.id, e.target.value as TypeStatus)}
