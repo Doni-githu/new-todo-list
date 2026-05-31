@@ -1,0 +1,9 @@
+### POST a task
+POST http://localhost:3000/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "title": "Some tasksadasawdwadd",
+    "undo": false,
+    "status": "to-do"
+}

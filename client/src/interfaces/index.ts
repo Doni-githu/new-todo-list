@@ -1,7 +1,8 @@
 export interface ITask {
-    id: number,
-    undo: boolean,
+    id: string,
+    favor: boolean,
     title: string,
+    status: 'to-do' | 'progress' | 'completed'
 }
 
 export type TypeTaskAction =
@@ -12,19 +13,22 @@ export type TypeTaskAction =
     | {
         type: 'deleted';
         payload: {
-            id: number
+            id: string
         }
     }
     | {
         type: 'rewrited';
         payload: {
-            id: number;
+            id: string;
             title: string
         }
     }
     | {
-        type: 'undo';
-        payload: { id: number }
+        type: 'favor';
+        payload: { id: string }
+    } | {
+        type: 'initial_tasks';
+        payload: ITask[]
     }
 
 export type TypeDefaultValue = {

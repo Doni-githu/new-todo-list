@@ -1,23 +1,18 @@
 import { createContext, useReducer, type ReactNode } from "react";
-import type { ITaskWithOutId, TypeDefaultValue, TypeTaskAction } from "../interfaces";
+import type { ITask, ITaskWithOutId, TypeDefaultValue, TypeTaskAction } from "../interfaces";
 
 
 type TaskContextType = {
     state: TypeDefaultValue;
     dispatch: React.Dispatch<TypeTaskAction>;
-    changeUndo: (id: number) => void;
+    changeUndo: (id: string) => void;
     addTask: (data: ITaskWithOutId) => void;
-    deleteTask: (id: number) => void;
-    editTask: (id: number, title: string) => void
+    deleteTask: (id: string) => void;
+    editTask: (id: string, title: string) => void;
+    loadTasks: (tasks: ITask[]) => void
 };
 const defaultValue: TypeDefaultValue = {
-    tasks: [
-        {
-            id: 1,
-            title: 'Buy groceries',
-            undo: false
-        }
-    ]
+    tasks: []
 }
 
 export const TaskContext = createContext<TaskContextType | undefined>(undefined)
@@ -30,24 +25,28 @@ const reducer = (state: TypeDefaultValue, action: TypeTaskAction) => {
             const title = action.payload.title
             const newTasks = state.tasks.map((item) => {
                 if (item.id === action.payload.id) {
+                    console.log(item)
                     return { ...item, title: title }
                 }
+                console.log(item)
                 return item
             })
             return { ...state, tasks: newTasks }
         case 'deleted':
             const id = action.payload.id
             return { ...state, tasks: state.tasks.filter(item => item.id !== id) }
-        case 'undo':
+        case 'favor':
             state.tasks.map(item => {
                 if (item.id == action.payload.id) {
                     return {
                         ...item,
-                        undo: !item.undo
+                        undo: !item.favor
                     }
                 }
             })
             return { ...state, }
+        case 'initial_tasks':
+            return { ...state, tasks: [...action.payload] }
         default:
             return state
     }
@@ -60,33 +59,30 @@ type ContextProviderProps = {
 const TaskProvider = ({ children }: ContextProviderProps) => {
     const [state, dispatch] = useReducer(reducer, defaultValue);
 
-    const changeUndo = (id: number) => {
+    const changeUndo = (id: string) => {
         dispatch({
-            type: 'undo',
+            type: 'favor',
             payload: { id }
         })
     }
 
-    const addTask = (data: ITaskWithOutId) => {
+    const addTask = (data: ITask) => {
         dispatch({
             type: 'added',
-            payload: {
-                ...data,
-                id: state.tasks.at(-1).id + 1
-            }
+            payload: data
         })
     }
 
-    const deleteTask = (id: number) => {
+    const deleteTask = (id: string) => {
         dispatch({
             type: 'deleted',
             payload: { id }
         })
     }
 
-    const editTask = (id: number, title: string) => {
+    const editTask = (id: string, title: string) => {
         dispatch({
-            type:'rewrited',
+            type: 'rewrited',
             payload: {
                 id,
                 title
@@ -94,8 +90,17 @@ const TaskProvider = ({ children }: ContextProviderProps) => {
         })
     }
 
+    const loadTasks = (tasks: ITask[]) => {
+        dispatch({
+            type: 'initial_tasks',
+            payload: tasks
+        })
+    }
+
     return (
-        <TaskContext.Provider value={{ state, dispatch, changeUndo, addTask, deleteTask, editTask }}> {children} </TaskContext.Provider>
+        <TaskContext.Provider value={{ state, dispatch, changeUndo, addTask, deleteTask, editTask, loadTasks }}>
+            {children}
+        </TaskContext.Provider>
     );
 }
 

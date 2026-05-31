@@ -9,8 +9,8 @@ export default function () {
     const filtered = state.tasks.sort((a, b) => Number(a.undo) - Number(b.undo))
     return (
         <ul className="todo-list flex flex-col gap-6 ">
-            {filtered.map((item) => (
-                <ListItem key={item.id} item={item} />
+            {filtered.map((item, index) => (
+                <ListItem key={item.id} item={item} id={index} />
             ))}
         </ul>
 

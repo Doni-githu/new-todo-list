@@ -1,22 +1,30 @@
-import  { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import type { ITaskWithOutId } from '../interfaces'
 import { TaskContext } from '../context/task'
+import { TaskService } from '../service/task'
 
 function AddForm({ setIsOpen }) {
     const [value, setValue] = useState('')
     const { addTask } = useContext(TaskContext)
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        if(!value) {
-            return alert("Title of your task is required")
-        };
-        const data: ITaskWithOutId = {
-            title: value,
-            undo: false
+    const handleSubmit = async (e) => {
+        try {
+            e.preventDefault()
+            if (!value) {
+                return alert("Title of your task is required")
+            };
+            const data: ITaskWithOutId = {
+                title: value,
+                favor: false,
+                status: 'to-do'
+            }
+            const result = await TaskService.addTask(data)
+            addTask(result.data)
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setValue('')
+            setIsOpen(false)
         }
-        addTask(data)
-        setValue('')
-        setIsOpen(false)
     }
 
     return (
